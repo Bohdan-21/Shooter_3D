@@ -9,7 +9,7 @@ enum Axis
     Diagonal
 }
 
-public class ControlCamera : MonoBehaviour
+public class ControlRotate : MonoBehaviour
 {
     [SerializeField] private Axis _typeAxisControl;
 
@@ -17,6 +17,9 @@ public class ControlCamera : MonoBehaviour
 
     private float deltaX;
     private float deltaY;
+
+    private float minVert = -45;
+    private float maxVert = 45;
 
     void Update()
     {
@@ -32,27 +35,20 @@ public class ControlCamera : MonoBehaviour
         }
         else if (_typeAxisControl == Axis.Vertical)
         {
-            deltaY = _sensitive * -Input.GetAxis("Mouse Y");
+            deltaY -= _sensitive * Input.GetAxis("Mouse Y");
+            deltaY = Mathf.Clamp(deltaY, minVert, maxVert);
 
             Vector3 rotation = new Vector3(deltaY, 0, 0);
 
-            rotation *= Time.deltaTime;
-
-            transform.Rotate(rotation);
+            transform.localEulerAngles = rotation;
         }
         else
         {
             deltaX = _sensitive * Input.GetAxis("Mouse X");
-            deltaY = _sensitive * -Input.GetAxis("Mouse Y");
+            deltaY -= _sensitive * -Input.GetAxis("Mouse Y");
 
             Vector3 rotate = new Vector3(deltaY, deltaX, 0);
-
-            rotate *= Time.deltaTime;
-
-            transform.Rotate(rotate);
-
-            rotate = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0);
-
+            
             transform.localEulerAngles = rotate;
         }
     }

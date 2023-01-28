@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControlBody : MonoBehaviour
+public class ControlMove : MonoBehaviour
 {
     [SerializeField] private Axis _typeAxisControl;
 
