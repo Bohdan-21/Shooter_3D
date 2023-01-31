@@ -26,7 +26,13 @@ public class Shoot : MonoBehaviour
 
             if(Physics.Raycast(ray, out hit))
             {
-                StartCoroutine(SpawnSphere(hit.point));
+                GameObject hitObject = hit.transform.gameObject;
+                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+
+                if (target != null)
+                    target.ReactToHit();
+                else
+                    StartCoroutine(SpawnSphere(hit.point));
             }
         }
     }
